@@ -8,7 +8,6 @@ import { blogROuter } from "./routes/blogRoute.js";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import cors from 'cors';
-//import { categoryRouter } from "./routes/categoryRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,6 +29,4 @@ app.listen(PORT, () => {
 
 dbConnect();
 app.use("/api/user", authRouter);
-app.use("/api/product", productRouter);
-app.use("/api/blog", blogROuter);
-//app.use("/api/category", categoryRouter);
+
