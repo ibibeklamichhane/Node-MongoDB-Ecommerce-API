@@ -3,8 +3,7 @@ import { generateRefreshToken } from "../config/refreshToken.js";
 import User from "../models/userModel.js"
 import asyncHandler from "express-async-handler"
 import { validationResult } from "express-validator";
-
-
+import httpStatus from 'http-status';
 
 export const createUser = async (req, res) => {
     try {
@@ -45,18 +44,32 @@ export const createUser = async (req, res) => {
 
 
 
-
+/*
 // update user
-export const updateUser = asyncHandler(async(req, res)=> {
-    const {id} = req.params;
-    try{
+export const updateUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    try {
         const userToUpdate = await User.findById(id);
-        if(!userToUpdate){
+        if (!userToUpdate) {
             return res.status(404).json({
                 message: "User not found",
-                success: false
+                success: false,
             });
         }
+
+        // Check if the new email is already taken
+        if (req.body.email && req.body.email !== userToUpdate.email) {
+            const existingUser = await User.findOne({ email: req.body.email });
+            if (existingUser) {
+                return res.status(400).json({
+                    message: "Email already in use by another user",
+                    success: false,
+                });
+            }
+        }
+
+        // Update user fields
         userToUpdate.firstname = req.body.firstname || userToUpdate.firstname;
         userToUpdate.lastname = req.body.lastname || userToUpdate.lastname;
         userToUpdate.email = req.body.email || userToUpdate.email;
@@ -69,13 +82,61 @@ export const updateUser = asyncHandler(async(req, res)=> {
             success: true,
             user: userToUpdate,
         });
-    }catch(error){
+    } catch (error) {
         console.error("Error updating user", error);
         return res.status(500).json({
             message: "Internal server error",
             success: false,
         });
-    }     
+    }
+});
+*/
+
+//when sending the payload only send the fields that are requred to be updated
+export const updateUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const userToUpdate = await User.findById(id);
+        if (!userToUpdate) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false,
+            });
+        }
+
+        // Check if email needs to be updated and ensure it's unique
+        if (req.body.email && req.body.email !== userToUpdate.email) {
+            const existingUser = await User.findOne({ email: req.body.email });
+            if (existingUser) {
+                return res.status(400).json({
+                    message: "Email already in use by another user",
+                    success: false,
+                });
+            }
+        }
+
+        // Update only the provided fields
+        Object.keys(req.body).forEach((key) => {
+            if (req.body[key] !== undefined) {
+                userToUpdate[key] = req.body[key];
+            }
+        });
+
+        await userToUpdate.save();
+
+        return res.status(200).json({
+            message: "User updated successfully",
+            success: true,
+            user: userToUpdate,
+        });
+    } catch (error) {
+        console.error("Error updating user", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false,
+        });
+    }
 });
 
 

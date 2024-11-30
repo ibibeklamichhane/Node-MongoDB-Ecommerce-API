@@ -19,40 +19,10 @@ router.post('/login', userLogin);
 router.get('/getallUser', getallUser);
 router.get('/getSingleUser/:id', authMiddleware, isAdmin, getSingleUser);
 router.delete('/deleteSingleUser/:id', deleteSingleUser );
-router.post('/updateUser/:id', authMiddleware, updateUser);
+router.put('/updateUser/:id', authMiddleware, updateUser);
 
 
 export { router as authRouter };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
