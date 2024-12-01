@@ -1,59 +1,33 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import crypto from "crypto";
 // Declare the Schema of the Mongo model
-var userSchema = new mongoose.Schema({
-    firstname:{
+
+var productSchema = new mongoose.Schema(
+    {
+        title:{
         type:String,
         required:true,
-        // unique:true,
         index:true,
     },
-    lastname:{
+    description:{
         type:String,
         required:true,
         // unique:true,
     },
-    email:{
+    price:{
         type:String,
         required:true,
         unique:true,
     },
-    mobile:{
+    quantity:{
         type:String,
         required:true,
         // unique:true,
     },
-    password:{
+    color:{
         type:String,
         required:true,
-    },
-    isAdmin: {
-        type:String,
-        default: "user"
-    },
-    isBlocked: {
-        type: Boolean,
-        default: false
-    },
-    cart: {
-        type: Array,
-        default: [],
-    },
-    address: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Address"
-    }],
-    wishlist: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
-    }],
-    refreshToken: {
-        type: String,
-    },
-    passwordChangedAt:Date,
-    passwordResetToken: String,
-    passwordResetExpires: Date,
+    }
+
 },
 
 {
@@ -62,9 +36,11 @@ var userSchema = new mongoose.Schema({
 
 
 );
+export default mongoose.model("product", productSchema);
 
 // this code to encrypt password 
-userSchema.pre('save', async function(next){
+
+/*userSchema.pre('save', async function(next){
     if(!this.isModified("password")){
         next();
     }
@@ -87,3 +63,4 @@ userSchema.methods.createPasswordResetToken = async function(){
 }
 
 export default mongoose.model('User', userSchema);
+*/

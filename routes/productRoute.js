@@ -1,12 +1,10 @@
 import express from "express"
-import {createProduct} from '../controller/ProductController.js'
-import {getProductById} from '../controller/ProductController.js'
-import {getAllProduct} from '../controller/ProductController.js'
-import {updateProduct} from '../controller/ProductController.js'
-import {deleteProduct} from '../controller/ProductController.js'
-
+import {createProduct} from '../controller/productController.js'
+import {getProductById} from '../controller/productController.js'
+import {getAllProduct} from '../controller/productController.js'
+import {updateProduct} from '../controller/productController.js'
+import {deleteProduct} from '../controller/productController.js'
 import {authMiddleware, isAdmin} from '../middlewares/authMiddleware.js'
-
 
 const productRouter = express.Router();
 
