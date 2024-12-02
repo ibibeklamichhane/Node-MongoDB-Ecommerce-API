@@ -46,6 +46,7 @@ export const deleteProduct = expressAsyncHandler(async(req, res)=> {
     const {id} = req.params;
     try{
         const deleteProduct= await Product.findByIdAndDelete(id , req.body, {new:true});
+        console.log(deleteProduct)
         if (!deleteProduct) {
             return res.status(404).json({
                 message: "Product not found",
