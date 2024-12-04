@@ -2,7 +2,21 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+//import  Cart  from './cartModel'; // Import Cart model
 // Declare the Schema of the Mongo model
+const CartItemSchema = new mongoose.Schema({
+    product: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Product', 
+        required: true 
+    },
+    quantity: { 
+        type: Number, 
+        required: true, 
+        default: 1 
+    }
+});
+
 var userSchema = new mongoose.Schema({
     firstname:{
         type:String,
@@ -37,10 +51,15 @@ var userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    /*
     cart: {
         type: Array,
         default: [],
-    },
+    },*/
+    cart: [CartItemSchema], // Embedded CartItem schema
+
+   // Cart: [CartItemSchema], // Cart items
+
     address: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Address"
