@@ -28,9 +28,7 @@ export const createProduct = [
     expressAsyncHandler(async (req, res) => {
         try {
             // Generate slug if title is provided
-            if (req.body.title) {
-                req.body.slug = slugify(req.body.title);
-            }
+
 
             // Handle image uploads
             if (req.files && req.files.length > 0) {

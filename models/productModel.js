@@ -12,7 +12,7 @@ var productSchema = new mongoose.Schema(
         
         title:{
         type:String,
-        required:true,
+        required:false,
         index:true,
     },
     description:{
