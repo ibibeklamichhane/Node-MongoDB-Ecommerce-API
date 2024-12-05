@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 
 // Declare the Schema of the Mongo model
-var blogcategorySchema = new mongoose.Schema(
+var categorySchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
       unique: true,
       index: true,
+      trim: true,
     },
   },
   {
@@ -15,4 +16,4 @@ var blogcategorySchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Category", blogcategorySchema);
+export default mongoose.model("Category", categorySchema);

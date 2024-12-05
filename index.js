@@ -10,6 +10,10 @@ import { cartRouter } from "./routes/cartRoute.js";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,3 +37,12 @@ dbConnect();
 app.use("/api/user", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api", cartRouter);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Serve static files
+//app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+

@@ -2,7 +2,14 @@ import mongoose from "mongoose";
 // Declare the Schema of the Mongo model
 
 var productSchema = new mongoose.Schema(
+    
     {
+        category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category",
+            required:false,
+          },
+        
         title:{
         type:String,
         required:true,
@@ -26,7 +33,11 @@ var productSchema = new mongoose.Schema(
     color:{
         type:String,
         required:true,
-    }
+    }, 
+    images: {
+        type: [String], // Array of image URLs or paths
+        required: false
+    },
 
 },
 

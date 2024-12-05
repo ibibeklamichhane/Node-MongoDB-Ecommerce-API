@@ -8,6 +8,8 @@ export const createCategory = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+
 export const updateCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);

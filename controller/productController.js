@@ -3,8 +3,9 @@ import Product from '../models/productModel.js'
 import expressAsyncHandler from 'express-async-handler'
 import {validateMangoDbId} from '../utils/validateMangoDbId.js'
 import slugify from 'slugify';
+import { upload } from '../config/fileupload.js';
 
-
+/*
  export const createProduct = expressAsyncHandler(async(req, res)=> {
     try{
         if(req.body.title){
@@ -19,8 +20,37 @@ import slugify from 'slugify';
     }catch(error){
         throw new Error(error);
     }
-});
+}); */
 
+export const createProduct = [
+    // Multer middleware to handle file upload
+    upload.array('images', 5), // Allow up to 5 images
+    expressAsyncHandler(async (req, res) => {
+        try {
+            // Generate slug if title is provided
+            if (req.body.title) {
+                req.body.slug = slugify(req.body.title);
+            }
+
+            // Handle image uploads
+            if (req.files && req.files.length > 0) {
+                // Map the file paths to store in the database
+                req.body.images = req.files.map((file) => file.path);
+            }
+
+            // Create product in the database
+            const createProd = await Product.create(req.body);
+            if (createProd) {
+                return res.status(200).json({
+                    message: 'Product has been added successfully',
+                    product: createProd,
+                });
+            }
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }),
+];
 
 export const updateProduct = expressAsyncHandler(async(req, res)=> {
     const {id} = req.params;
